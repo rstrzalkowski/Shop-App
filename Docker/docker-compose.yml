@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  mongodb:
+    image : mongo
+    container_name: nestdb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=nest
+      - MONGO_INITDB_ROOT_PASSWORD=nestpassword
+    volumes:
+      - pg:/var/lib/mongodb/data
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+volumes:
+  pg:
