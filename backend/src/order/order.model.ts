@@ -18,7 +18,11 @@ export const OrderSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
-  products: { type: [ProductEntrySchema], required: true },
+  products: {
+    type: [ProductEntrySchema],
+    required: true,
+    _id: false,
+  },
   state: { type: OrderStateSchema, required: true },
 });
 
@@ -31,26 +35,3 @@ export interface Order extends mongoose.Document {
   products: Array<ProductEntry>;
   state: OrderState;
 }
-
-/*
-//[product: Product, quantity: number];
-{ product: ProductSchema, quantity: Number }
-Array<Product>
-Zamówienie: 
-- data zatwierdzenia (data, dopuszczalny null), 
-- stan zamówienia (jedno obowiązkowe odniesienie do encji Stan Zamówienia) 
-- nazwa użytkownika,
-- email (oba typu tekst),
-- numer telefonu (typu tekst),
-- lista zamówionych towarów wraz z liczbą sztuk każdego towaru (liczby całkowite dodatnie). 
-Należy dodać odpowiednie tabele w bazie danych.
-
-Stan Zamówienia: 
-- nazwa (typu tekst) 
-	+ predefiniowane w bazie stany:
-		* NIEZATWIERDZONE
-		* ZATWIERDZONE
-		* ANULOWANE
-		* ZREALIZOWANE (nazwy można przetłumaczyć na angielski)
-		
- */

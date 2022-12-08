@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OrderSchema } from './order.model';
+import { OrderSchema, ProductEntrySchema } from './order.model';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { OrderStateSchema } from './orderState.model';
+import { ProductModule } from '../product/product.module';
 
 @Module({
   imports: [
@@ -11,6 +12,10 @@ import { OrderStateSchema } from './orderState.model';
     MongooseModule.forFeature([
       { name: 'OrderState', schema: OrderStateSchema },
     ]),
+    MongooseModule.forFeature([
+      { name: 'ProductEntry', schema: ProductEntrySchema },
+    ]),
+    ProductModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],

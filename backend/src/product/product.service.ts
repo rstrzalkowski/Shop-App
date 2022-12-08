@@ -23,10 +23,15 @@ export class ProductService {
       description: desc,
       price,
       weight,
-      category: new this.categoryModel({ name: category }),
+      category: await this.categoryModel.findOne({ name: category }).exec(),
     });
     const result = await newProduct.save();
     return result.id as string;
+  }
+
+  async getProduct(id: string) {
+    const product = await this.productModel.findById(id).select('-__v').exec();
+    return product;
   }
 
   async getProducts() {

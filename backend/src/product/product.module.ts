@@ -10,6 +10,7 @@ import { CategorySchema } from '../category/category.model';
     MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }]),
     MongooseModule.forFeature([{ name: 'Category', schema: CategorySchema }]),
   ],
+  exports: [ProductService],
   controllers: [ProductController],
   providers: [ProductService],
 })
