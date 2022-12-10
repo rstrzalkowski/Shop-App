@@ -68,4 +68,23 @@ export class OrderService {
       .exec();
     return order;
   }
+
+  async changeState(id: string, state: string) {
+    const foundState = await this.orderStateModel
+      .findOne({ name: state })
+      .exec();
+    const order = await this.orderModel.findById(id).exec();
+    if (foundState != null && order != null) {
+      if (
+        order.state.name == 'UNCONFIRMED' &&
+        (foundState.name == 'CONFIRMED' || foundState.name == 'CANCELLED')
+      ) {
+        order.state = foundState;
+        await this.orderModel.findByIdAndUpdate(id, order);
+      } else if (order.state.name == 'CONFIRMED' && foundState.name == 'DONE') {
+        order.state = foundState;
+        await this.orderModel.findByIdAndUpdate(id, order);
+      }
+    }
+  }
 }

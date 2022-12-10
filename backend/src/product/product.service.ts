@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './product.model';
 import { Category } from '../category/category.model';
+import { CreateProductDTO } from './dto/create-product';
+import { UpdateProductDTO } from './dto/update-product';
 
 @Injectable()
 export class ProductService {
@@ -11,19 +13,13 @@ export class ProductService {
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
   ) {}
 
-  async insertProduct(
-    name: string,
-    desc: string,
-    price: number,
-    weight: number,
-    category: string,
-  ) {
+  async insertProduct(dto: CreateProductDTO) {
     const newProduct = new this.productModel({
-      name: name,
-      description: desc,
-      price,
-      weight,
-      category: await this.categoryModel.findOne({ name: category }).exec(),
+      name: dto.name,
+      description: dto.description,
+      price: dto.price,
+      weight: dto.weight,
+      category: await this.resolveCategoryByName(dto.category),
     });
     const result = await newProduct.save();
     return result.id as string;
@@ -44,5 +40,26 @@ export class ProductService {
       weight: prod.weight,
       category: prod.category,
     }));
+  }
+
+  async updateProduct(id: string, dto: UpdateProductDTO) {
+    const product = await this.getProduct(id);
+    product.name = dto.name;
+    product.description = dto.description;
+    product.price = dto.price;
+    product.weight = dto.weight;
+    product.category =
+      dto.category != null
+        ? await this.resolveCategoryByName(dto.category)
+        : product.category;
+    await this.productModel.findByIdAndUpdate(id, product);
+  }
+
+  async removeProduct(id: string) {
+    await this.productModel.findByIdAndDelete(id);
+  }
+
+  async resolveCategoryByName(name: string) {
+    return await this.categoryModel.findOne({ name: name }).exec();
   }
 }
