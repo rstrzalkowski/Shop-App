@@ -22,6 +22,41 @@ export class CartService {
     return this.behaviorSubject.asObservable();
   }
 
+  increaseQuantity(product: Product) {
+    this.cartItems.forEach((item) => {
+      if (item.id === product.id) {
+        item.quantity += 1;
+
+        localStorage.setItem('cart', JSON.stringify(this.cartItems))
+        this.behaviorSubject.next(this.cartItems);
+      }
+    })
+  }
+
+  decreaseQuantity(product: Product) {
+    this.cartItems.forEach((item) => {
+      if (item.id === product.id) {
+        if (item.quantity > 1) {
+          item.quantity -= 1;
+        } else {
+          this.cartItems = this.cartItems.filter((item) => item.id !== product.id)
+        }
+        localStorage.setItem('cart', JSON.stringify(this.cartItems))
+        this.behaviorSubject.next(this.cartItems);
+      }
+    })
+  }
+
+  getTotalPrice() {
+    let total = 0;
+
+    this.cartItems.forEach((item) => {
+      total += item.price * item.quantity
+    });
+
+    return total;
+  }
+
   addToCart(product: Product) {
     let found = false;
 

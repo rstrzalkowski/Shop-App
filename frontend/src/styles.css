@@ -15,3 +15,7 @@ body {
 html, body {
   height: 100%;
 }
+
+.hover-icon {
+  cursor: pointer;
+}

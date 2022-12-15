@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CartService} from "../../services/cart.service";
+import {Product} from "../../model/product.model";
 
 @Component({
   selector: 'app-cart',
@@ -16,6 +17,18 @@ export class CartComponent implements OnInit {
 
   getCartContent() {
     return this.cartService.getCartContent();
+  }
+
+  increaseQuantity(product: Product) {
+    this.cartService.increaseQuantity(product);
+  }
+
+  decreaseQuantity(product: Product) {
+    this.cartService.decreaseQuantity(product);
+  }
+
+  getTotalPrice() {
+    return this.cartService.getTotalPrice();
   }
 
 }
