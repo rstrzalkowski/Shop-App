@@ -1,24 +1,30 @@
-<table class="table table-responsive table-striped text-center"
-       >
-  <thead class="thead-dark">
-  <tr>
-    <th scope="col">Name</th>
-    <th scope="col">Description</th>
-    <th scope="col">Price</th>
-    <th scope="col">Weight</th>
-    <th scope="col">Category</th>
-  </tr>
-  </thead>
+<div class="table-responsive">
+  <table class="table table-striped text-center">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Category</th>
+      <th scope="col">Delete</th>
+    </tr>
+    </thead>
 
-  <tbody>
-  <tr *ngFor="let product of this.getProducts()">
-    <td>{{product.name}}</td>
-    <td>{{product.description}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.weight}}</td>
-    <td>{{product.category.name}}</td>
-  </tr>
-  </tbody>
+    <tbody>
+    <tr *ngFor="let product of products$ | async">
+      <td>{{product.name}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.weight}}</td>
+      <td>{{product.category.name}}</td>
+      <td>
+        <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
+      </td>
+    </tr>
+    </tbody>
 
-</table>
+  </table>
+</div>
+
 

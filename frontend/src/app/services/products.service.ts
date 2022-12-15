@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Product} from "../model/product.model";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +9,10 @@ import {Product} from "../model/product.model";
 export class ProductsService {
 
   constructor(private http: HttpClient) {
-    this.loadProducts();
   }
 
-  apiUrl = 'http://localhost:3000/products';
-  products: Product[] = [];
-
-  loadProducts(){
-    this.http.get<Product[]>(this.apiUrl).subscribe((products) =>{
-      this.products = products;
-    })
+  loadProducts() {
+    return this.http.get<Product[]>(environment.apiUrl + '/products');
   }
+  
 }
