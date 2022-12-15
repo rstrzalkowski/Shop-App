@@ -4,8 +4,8 @@
     <tr class="align-content-center align-middle text-center">
       <th id='nameHead' scope="col" (click)="sort('name', nameOrder); activate('nameHead');">Name</th>
       <th scope="col">Description</th>
-      <th id='priceHead' scope="col" (click)="sort('price', priceOrder); activate('priceHead');">Price</th>
-      <th id='weightHead' scope="col" (click)="sort('weight', weightOrder); activate('weightHead');">Weight</th>
+      <th id='priceHead' scope="col" (click)="sort('price', priceOrder); activate('priceHead');">Price (PLN)</th>
+      <th id='weightHead' scope="col" (click)="sort('weight', weightOrder); activate('weightHead');">Weight (kg)</th>
       <th scope="col">Add to cart</th>
     </tr>
     </thead>
@@ -20,8 +20,11 @@
         <button class="btn btn-success" (click)="addToCart(product)">
           <i class="bi bi-cart-plus"></i>
           <span class="d-none d-sm-inline"> Add to cart</span>
+          <span class="d-none d-sm-inline-block mt-sm-0 mt-1 ms-sm-1 ms-0"
+                *ngIf="getProductQuantityInCart(product.id) > 0">( {{getProductQuantityInCart(product.id)}} )</span>
         </button>
-        <p *ngIf="getProductQuantityInCart(product.id) > 0">In cart: {{getProductQuantityInCart(product.id)}}</p>
+        <span class="d-inline-block d-sm-none mt-sm-0 mt-1 ms-sm-1 ms-0"
+              *ngIf="getProductQuantityInCart(product.id) > 0">( {{getProductQuantityInCart(product.id)}} )</span>
 
       </td>
     </tr>
