@@ -2,19 +2,23 @@
   <table class="table table-striped text-center">
     <thead class="thead-dark">
     <tr>
-      <th id="nameHead" scope="col" (click)="activate('nameHead'); sort('name', nameOrder); nameOrder = !nameOrder;">Name</th>
+      <th scope="col">Name</th>
       <th scope="col">Description</th>
-      <th id="priceHead" scope="col" (click)="activate('priceHead'); sort('price', priceOrder); priceOrder = !priceOrder">Price</th>
-      <th id="weightHead" scope="col" (click)="activate('weightHead'); sort('weight', weightOrder); weightOrder = !weightOrder">Weight</th>
+      <th scope="col">Price</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Delete</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr *ngFor="let product of this.getProducts()">
+    <tr *ngFor="let product of products$ | async">
       <td>{{product.name}}</td>
       <td>{{product.description}}</td>
       <td>{{product.price}}</td>
       <td>{{product.weight}}</td>
+      <td>
+        <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
+      </td>
     </tr>
     </tbody>
 
