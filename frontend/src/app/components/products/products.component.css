@@ -1,0 +1,11 @@
+table {
+  overflow-x: scroll;
+}
+
+.asc::after {
+  content: " \F128";
+}
+
+.desc::after {
+  content: " \F148";
+}
