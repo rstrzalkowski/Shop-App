@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../../services/products.service";
-import {Observable} from "rxjs";
 import {Product} from "../../model/product.model";
 import {CartService} from "../../services/cart.service";
 
@@ -11,7 +10,7 @@ import {CartService} from "../../services/cart.service";
 })
 export class ProductsComponent implements OnInit {
 
-  products$: Observable<Product[]> | undefined
+  products: Product[] = [];
 
   constructor(
     private productsService: ProductsService,
@@ -23,15 +22,13 @@ export class ProductsComponent implements OnInit {
   weightOrder = true;
 
   ngOnInit(): void {
-    this.products$ = this.getProducts();
+    this.productsService.loadProducts().subscribe((products) => {
+      this.products = products;
+    });
   }
 
   getProducts() {
-    return this.productsService.loadProducts();
-  }
-
-  sort(prop: string, asc: boolean){
-    this.productsService.sort(prop, asc);
+    return this.products;
   }
 
   activate(column: string){
@@ -45,12 +42,15 @@ export class ProductsComponent implements OnInit {
     switch(column){
       case 'nameHead':
         order = this.nameOrder;
+        this.nameOrder = !this.nameOrder;
         break;
       case 'weightHead':
         order = this.weightOrder;
+        this.weightOrder = !this.weightOrder;
         break;
       case 'priceHead':
         order = this.priceOrder;
+        this.priceOrder = !this.priceOrder;
         break;
       default:
         order = true;
@@ -61,5 +61,21 @@ export class ProductsComponent implements OnInit {
   }
   addToCart(product: Product) {
     this.cartService.addToCart(product);
+  }
+
+  sort(prop: string, asc: boolean){
+    this.products.sort(this.sortHelper(prop, asc));
+  }
+
+  sortHelper(prop: string, asc: boolean){
+    if(asc){
+      return (a: any, b: any) => {
+        return a[prop] - b[prop];
+      }
+    } else {
+      return (a: any, b: any) => {
+        return b[prop] - a[prop];
+      }
+    }
   }
 }

@@ -2,16 +2,16 @@
   <table class="table table-striped text-center">
     <thead class="thead-dark">
     <tr>
-      <th scope="col">Name</th>
+      <th id='nameHead' scope="col" (click)="sort('name', nameOrder); activate('nameHead');">Name</th>
       <th scope="col">Description</th>
-      <th scope="col">Price</th>
-      <th scope="col">Weight</th>
+      <th id='priceHead' scope="col" (click)="sort('price', priceOrder); activate('priceHead');">Price</th>
+      <th id='weightHead' scope="col" (click)="sort('weight', weightOrder); activate('weightHead');">Weight</th>
       <th scope="col">Delete</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr *ngFor="let product of products$ | async">
+    <tr *ngFor="let product of getProducts()">
       <td>{{product.name}}</td>
       <td>{{product.description}}</td>
       <td>{{product.price}}</td>

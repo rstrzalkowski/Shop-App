@@ -3,9 +3,9 @@ table {
 }
 
 .asc::after {
-  content: " \F128";
+  content: " ↓";
 }
 
 .desc::after {
-  content: " \F148";
+  content: " ↑";
 }
