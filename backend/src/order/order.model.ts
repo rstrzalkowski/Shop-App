@@ -1,12 +1,6 @@
 import * as mongoose from 'mongoose';
-import { Product } from '../product/product.model';
-import { ProductSchema } from '../product/product.model';
+import { Product, ProductSchema } from '../product/product.model';
 import { OrderState, OrderStateSchema } from './orderState.model';
-
-export const ProductEntrySchema = new mongoose.Schema({
-  product: ProductSchema,
-  quantity: Number,
-});
 
 export interface ProductEntry extends mongoose.Document {
   product: Product;
@@ -19,7 +13,12 @@ export const OrderSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   products: {
-    type: [ProductEntrySchema],
+    type: [
+      {
+        product: ProductSchema,
+        quantity: Number,
+      },
+    ],
     required: true,
     _id: false,
   },

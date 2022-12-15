@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { OrderState } from './orderState.model';
-import { Order, ProductEntry } from './order.model';
+import { Order } from './order.model';
 import { ProductService } from '../product/product.service';
 import { ProductEntryDTO } from './dto/create-order';
 
@@ -14,8 +14,8 @@ export class OrderService {
     @InjectModel('Order') private readonly orderModel: Model<Order>,
     @InjectModel('OrderState')
     private readonly orderStateModel: Model<OrderState>,
-    @InjectModel('ProductEntry')
-    private readonly productEntryModel: Model<ProductEntry>,
+    // @InjectModel('ProductEntry')
+    // private readonly productEntryModel: Model<ProductEntry>,
     private readonly productService: ProductService,
   ) {}
 
@@ -29,10 +29,10 @@ export class OrderService {
     const foundProducts = [];
     for (const entry of products) {
       const tempProduct = await this.productService.getProduct(entry.id);
-      const tempProductEntry = new this.productEntryModel({
+      const tempProductEntry = {
         product: tempProduct,
         quantity: entry.quantity,
-      });
+      };
       foundProducts.push(tempProductEntry);
     }
 

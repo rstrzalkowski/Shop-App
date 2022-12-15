@@ -24,17 +24,52 @@ export class AppModule {
 
   onModuleInit() {
     const categories = this.connection.collection('categories');
-    const orderstates = this.connection.collection('categories');
+    const orderstates = this.connection.collection('orderstates');
+    categories.updateOne(
+      { name: 'Sport' },
+      { $setOnInsert: { name: 'Sport' } },
+      { upsert: true },
+    );
 
-    categories.insertOne({ name: 'Sport' });
-    categories.insertOne({ name: 'Clothes' });
-    categories.insertOne({ name: 'Shoes' });
-    categories.insertOne({ name: 'Electronics' });
-    categories.insertOne({ name: 'Books' });
-
-    orderstates.insertOne({ name: 'UNCONFIRMED' });
-    orderstates.insertOne({ name: 'CONFIRMED' });
-    orderstates.insertOne({ name: 'CANCELLED' });
-    orderstates.insertOne({ name: 'DONE' });
+    categories.updateOne(
+      { name: 'Clothes' },
+      { $setOnInsert: { name: 'Clothes' } },
+      { upsert: true },
+    );
+    categories.updateOne(
+      { name: 'Shoes' },
+      { $setOnInsert: { name: 'Shoes' } },
+      { upsert: true },
+    );
+    categories.updateOne(
+      { name: 'Electronics' },
+      { $setOnInsert: { name: 'Electronics' } },
+      { upsert: true },
+    );
+    categories.updateOne(
+      { name: 'Books' },
+      { $setOnInsert: { name: 'Books' } },
+      { upsert: true },
+    );
+    orderstates.updateOne(
+      { name: 'UNCONFIRMED' },
+      { $setOnInsert: { name: 'UNCONFIRMED' } },
+      { upsert: true },
+    );
+    orderstates.updateOne(
+      { name: 'CONFIRMED' },
+      { $setOnInsert: { name: 'CONFIRMED' } },
+      { upsert: true },
+    );
+    orderstates.updateOne(
+      { name: 'CANCELLED' },
+      { $setOnInsert: { name: 'CANCELLED' } },
+      { upsert: true },
+    );
+    orderstates.updateOne(
+      { name: 'DONE' },
+      { $setOnInsert: { name: 'DONE' } },
+      { upsert: true },
+    );
   }
 }
