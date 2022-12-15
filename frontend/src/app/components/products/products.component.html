@@ -6,7 +6,7 @@
       <th scope="col">Description</th>
       <th id='priceHead' scope="col" (click)="sort('price', priceOrder); activate('priceHead');">Price</th>
       <th id='weightHead' scope="col" (click)="sort('weight', weightOrder); activate('weightHead');">Weight</th>
-      <th scope="col">Delete</th>
+      <th scope="col">Add to cart</th>
     </tr>
     </thead>
 
@@ -18,6 +18,7 @@
       <td>{{product.weight}}</td>
       <td>
         <button class="btn btn-primary" (click)="addToCart(product)">Add to cart</button>
+        <p *ngIf="getProductQuantityInCart(product.id) > 0">In cart: {{getProductQuantityInCart(product.id)}}</p>
       </td>
     </tr>
     </tbody>

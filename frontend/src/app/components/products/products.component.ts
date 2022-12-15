@@ -31,7 +31,11 @@ export class ProductsComponent implements OnInit {
     return this.products;
   }
 
-  activate(column: string){
+  getProductQuantityInCart(id: string) {
+    return this.cartService.getQuantity(id);
+  }
+
+  activate(column: string) {
     document.getElementById("nameHead")!.classList.remove("asc");
     document.getElementById("nameHead")!.classList.remove("desc");
     document.getElementById("weightHead")!.classList.remove("asc");
@@ -39,7 +43,7 @@ export class ProductsComponent implements OnInit {
     document.getElementById("priceHead")!.classList.remove("asc");
     document.getElementById("priceHead")!.classList.remove("desc");
     let order;
-    switch(column){
+    switch (column) {
       case 'nameHead':
         order = this.nameOrder;
         this.nameOrder = !this.nameOrder;
@@ -59,16 +63,17 @@ export class ProductsComponent implements OnInit {
     let className = (order) ? "asc" : "desc";
     document.getElementById(column)!.classList.add(className);
   }
+
   addToCart(product: Product) {
     this.cartService.addToCart(product);
   }
 
-  sort(prop: string, asc: boolean){
+  sort(prop: string, asc: boolean) {
     this.products.sort(this.sortHelper(prop, asc));
   }
 
-  sortHelper(prop: string, asc: boolean){
-    if(asc){
+  sortHelper(prop: string, asc: boolean) {
+    if (asc) {
       return (a: any, b: any) => {
         return a[prop] - b[prop];
       }

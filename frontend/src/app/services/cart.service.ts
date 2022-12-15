@@ -47,6 +47,16 @@ export class CartService {
     })
   }
 
+  getQuantity(id: string) {
+    let product = this.cartItems.filter((product) => product.id === id)[0];
+    try {
+      return product.quantity
+    } catch (error) {
+      return 0;
+    }
+  }
+
+
   getTotalPrice() {
     let total = 0;
 

@@ -10,11 +10,12 @@
           <a class="nav-link" [routerLink]="'/'" (click)="isMenuCollapsed = true">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart</a>
+          <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart <span
+            *ngIf="cartItemCount">( {{cartItemCount}} )</span></a>
         </li>
-<!--        <li class="nav-item">-->
-<!--          <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">About</a>-->
-<!--        </li>-->
+        <!--        <li class="nav-item">-->
+        <!--          <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">About</a>-->
+        <!--        </li>-->
       </ul>
     </div>
   </div>
