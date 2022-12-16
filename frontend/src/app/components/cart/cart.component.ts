@@ -11,9 +11,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class CartComponent implements OnInit {
 
   orderForm = new FormGroup({
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required])
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]*')])
   })
 
   showForm = false;
@@ -67,10 +67,14 @@ export class CartComponent implements OnInit {
   }
 
   onSubmit() {
-    this.cartService.placeOrder(this.email?.getRawValue(), this.username?.getRawValue(), this.phoneNumber?.getRawValue()).subscribe((result) => {
-      if (result.status === 201) {
-        this.cartService.emptyCart();
-      }
-    })
+    if (this.orderForm.valid) {
+      this.cartService.placeOrder(this.email?.getRawValue(), this.username?.getRawValue(), this.phoneNumber?.getRawValue()).subscribe((result) => {
+        if (result.status === 201) {
+          this.cartService.emptyCart();
+        }
+      })
+    } else {
+
+    }
   }
 }

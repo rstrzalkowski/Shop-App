@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit {
   nameOrder = true;
   priceOrder = true;
   weightOrder = true;
+  nameFilter = "";
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe((products) => {
@@ -33,15 +34,17 @@ export class ProductsComponent implements OnInit {
       if (param) {
         this.category = param;
       }
+      this.nameFilter = "";
     })
   }
+
 
   getProducts() {
     return this.products.filter((product) => {
       if (this.category === "") {
-        return product;
+        return product.name.toLowerCase().includes(this.nameFilter.toLowerCase())
       }
-      return product.category.name == this.category;
+      return (product.category.name == this.category) && (product.name.toLowerCase().includes(this.nameFilter.toLowerCase()));
     });
   }
 

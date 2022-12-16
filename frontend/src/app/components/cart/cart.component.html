@@ -50,14 +50,14 @@
     <div class="card-header h4">Please fill to place your order</div>
     <form [formGroup]="orderForm" class="p-3">
       <div class="form-outline mb-4">
-        <label class="form-label" for="email">Email address</label>
+        <label class="form-label" for="email">Email address*</label>
         <input required type="email" id="email" formControlName="email" class="form-control form-control-lg"
                placeholder="Enter email"/>
         <span *ngIf="email && email.touched && email.invalid" style="color: red">Enter a valid email</span>
       </div>
       <hr>
       <div class="form-outline mb-4">
-        <label class="form-label" for="email">Username</label>
+        <label class="form-label" for="email">Username*</label>
         <input required type="text" id="username" formControlName="username" class="form-control form-control-lg"
                placeholder="Enter username"/>
         <span *ngIf="username && username.touched && username.invalid"
@@ -65,14 +65,17 @@
       </div>
       <hr>
       <div class="form-outline mb-4">
-        <label class="form-label" for="email">Phone number</label>
-        <input required type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control form-control-lg"
+        <label class="form-label" for="email">Phone number*</label>
+        <input [ngClass]="{ d: true}" required type="text" id="phoneNumber" formControlName="phoneNumber"
+               class="form-control form-control-lg"
                placeholder="Enter phone number"/>
         <span *ngIf="phoneNumber && phoneNumber.touched && phoneNumber.invalid" style="color: red">Enter a valid phone number</span>
       </div>
       <div class="justify-content-end d-flex">
         <button (click)="onCancel()" class="btn btn-danger me-2">Cancel</button>
-        <button (click)="onSubmit()" class="btn btn-success ms-2">Submit order</button>
+        <button [ngClass]="{disabled: !orderForm.valid}" (click)="onSubmit()" class="btn btn-success ms-2">Submit
+          order
+        </button>
       </div>
     </form>
   </div>
