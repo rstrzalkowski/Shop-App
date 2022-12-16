@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../../services/products.service";
 import {Product} from "../../model/product.model";
 import {CartService} from "../../services/cart.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -11,10 +12,12 @@ import {CartService} from "../../services/cart.service";
 export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
+  category: string = "";
 
   constructor(
     private productsService: ProductsService,
-    private cartService: CartService) {
+    private cartService: CartService,
+    private route: ActivatedRoute,) {
   }
 
   nameOrder = true;
@@ -22,13 +25,25 @@ export class ProductsComponent implements OnInit {
   weightOrder = true;
 
   ngOnInit(): void {
-    this.productsService.loadProducts().subscribe((products) => {
+    this.productsService.getProducts().subscribe((products) => {
       this.products = products;
     });
+    this.route.paramMap.subscribe((params) => {
+      let param = params.get('category')?.toString()
+      if (param) {
+        this.category = param;
+        console.log(this.category)
+      }
+    })
   }
 
   getProducts() {
-    return this.products;
+    return this.products.filter((product) => {
+      if (this.category === "") {
+        return product;
+      }
+      return product.category.name == this.category;
+    });
   }
 
   getProductQuantityInCart(id: string) {

@@ -4,8 +4,10 @@ import {ProductsComponent} from "./components/products/products.component";
 import {CartComponent} from "./components/cart/cart.component";
 
 const routes: Routes = [
-  {path: '', component: ProductsComponent},
+  {path: 'products', component: ProductsComponent},
+  {path: 'products/:category', component: ProductsComponent},
   {path: 'cart', component: CartComponent},
+  {path: '**', redirectTo: 'products'}
 ];
 
 @NgModule({

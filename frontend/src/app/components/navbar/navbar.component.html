@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <a class="text-light navbar-brand" [routerLink]="'.'">ShopApp</a>
 
-    <button class="navbar-toggler bg-light" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+    <i class="bi bi-list navbar-toggler border-0" (click)="isMenuCollapsed = !isMenuCollapsed"
+       style="font-size: 30px; color: whitesmoke"></i>
 
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse text-light">
       <ul class="navbar-nav">
@@ -13,9 +14,18 @@
           <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart <span
             *ngIf="cartItemCount">( {{cartItemCount}} )</span></a>
         </li>
-        <!--        <li class="nav-item">-->
-        <!--          <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">About</a>-->
-        <!--        </li>-->
+        <li class="nav-item btn-group">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu position-absolute">
+            <a *ngFor="let category of categories" class="dropdown-item" (click)="isMenuCollapsed = true"
+               routerLink="/products/{{category.name}}">{{category.name}}</a>
+            <div class="dropdown-divider"></div>
+            <a (click)="isMenuCollapsed = true" class="dropdown-item" routerLink="/products">All categories</a>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
