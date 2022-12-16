@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Product} from "../model/product.model";
 import {BehaviorSubject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class CartService {
   private cartItems: Product[] = [];
   private behaviorSubject = new BehaviorSubject<Product[]>([]);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     let cart = localStorage.getItem('cart')
     if (cart != null) {
       this.cartItems = JSON.parse(cart);
@@ -27,6 +29,17 @@ export class CartService {
       if (item.id === product.id) {
         item.quantity += 1;
 
+        localStorage.setItem('cart', JSON.stringify(this.cartItems))
+        this.behaviorSubject.next(this.cartItems);
+      }
+    })
+  }
+
+  removeFromCart(product: Product) {
+    this.cartItems.forEach((item) => {
+      if (item.id === product.id) {
+        item.quantity = 0;
+        this.cartItems = this.cartItems.filter((item) => item.id !== product.id)
         localStorage.setItem('cart', JSON.stringify(this.cartItems))
         this.behaviorSubject.next(this.cartItems);
       }
@@ -83,6 +96,25 @@ export class CartService {
     }
 
     localStorage.setItem('cart', JSON.stringify(this.cartItems))
+    this.behaviorSubject.next(this.cartItems);
+  }
+
+  placeOrder(email: string, username: string, phoneNumber: string) {
+    const order = {
+      username: username,
+      email: email,
+      phoneNumber: phoneNumber,
+      products: this.cartItems,
+    }
+
+    console.log(order)
+
+
+    return this.http.post(environment.apiUrl + "/orders", order, {observe: "response"})
+  }
+
+  emptyCart() {
+    this.cartItems = [];
     this.behaviorSubject.next(this.cartItems);
   }
 }
