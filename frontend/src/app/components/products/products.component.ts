@@ -17,7 +17,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private cartService: CartService,
-    private route: ActivatedRoute,) {
+    private route: ActivatedRoute) {
   }
 
   nameOrder = true;
@@ -32,7 +32,6 @@ export class ProductsComponent implements OnInit {
       let param = params.get('category')?.toString()
       if (param) {
         this.category = param;
-        console.log(this.category)
       }
     })
   }

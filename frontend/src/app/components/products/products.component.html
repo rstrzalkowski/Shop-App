@@ -1,4 +1,4 @@
-<div *ngIf="getProducts().length; else noProducts" class="table-responsive col-lg-8 mx-auto card mt-sm-3">
+<div class="table-responsive col-lg-8 mx-auto card mt-sm-3">
   <div class="card-header text-center h3">
     <span routerLink="/products">Products</span>
     <span *ngIf="category.length"> > {{category}}</span>
@@ -40,16 +40,6 @@
     </table>
   </div>
 </div>
-
-<ng-template #noProducts>
-  <div class="text-center">
-    <h2 class="mt-5">Unfortunately, there are no products of category "{{category}}"</h2>
-    <i style="font-size: 100px" class="bi bi-emoji-frown"></i>
-    <h4>
-      <a routerLink="/products" class="mt-5 text-decoration-none">Browse all products instead</a>
-    </h4>
-  </div>
-</ng-template>
 
 <!--<ul class="container align-items-center" *ngFor="let product of this.getProducts()">-->
 <!--  <li class="row w-100 mx-auto bg-light">-->
