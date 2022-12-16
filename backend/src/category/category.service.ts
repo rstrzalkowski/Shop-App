@@ -10,8 +10,8 @@ export class CategoryService {
   ) {}
 
   async getCategories() {
-    const products = await this.categoryModel.find().exec();
-    return products.map((category) => ({
+    const categories = await this.categoryModel.find().exec();
+    return categories.map((category) => ({
       id: category.id,
       name: category.name,
     }));

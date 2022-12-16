@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { OrderState } from './orderState.model';
@@ -14,8 +14,6 @@ export class OrderService {
     @InjectModel('Order') private readonly orderModel: Model<Order>,
     @InjectModel('OrderState')
     private readonly orderStateModel: Model<OrderState>,
-    // @InjectModel('ProductEntry')
-    // private readonly productEntryModel: Model<ProductEntry>,
     private readonly productService: ProductService,
   ) {}
 
@@ -65,15 +63,42 @@ export class OrderService {
     const order = await this.orderModel
       .findById(id)
       .select('-state._id -__v')
-      .exec();
+      .exec()
+      .catch(() => {
+        throw new HttpException(
+          'Cannot retrieve order with given id',
+          HttpStatus.NOT_FOUND,
+        );
+      });
+    if (!order) {
+      throw new HttpException(
+        'Order with given id not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return order;
   }
 
   async changeState(id: string, state: string) {
     const foundState = await this.orderStateModel
       .findOne({ name: state })
-      .exec();
-    const order = await this.orderModel.findById(id).exec();
+      .exec()
+      .catch(() => {
+        throw new HttpException(
+          'Cannot retrieve order with given id',
+          HttpStatus.NOT_FOUND,
+        );
+      });
+    const order = await this.orderModel
+      .findById(id)
+      .exec()
+      .catch(() => {
+        throw new HttpException(
+          'Cannot retrieve state with given name',
+          HttpStatus.NOT_FOUND,
+        );
+      });
+
     if (foundState != null && order != null) {
       if (
         order.state.name == 'UNCONFIRMED' &&
@@ -85,6 +110,14 @@ export class OrderService {
         order.state = foundState;
         await this.orderModel.findByIdAndUpdate(id, order);
       }
+    } else {
+      let message;
+      if (order == null) {
+        message = 'Order with given id not found';
+      } else if (foundState == null) {
+        message = 'State with given name not found';
+      }
+      throw new HttpException(message, HttpStatus.NOT_FOUND);
     }
   }
 }

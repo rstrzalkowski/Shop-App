@@ -30,6 +30,6 @@ export class OrderController {
 
   @Put('/:id')
   changeState(@Param('id') id: string, @Body() body) {
-    this.orderService.changeState(id, body.state);
+    return this.orderService.changeState(id, body.state);
   }
 }

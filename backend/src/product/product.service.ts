@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from './product.model';
@@ -26,7 +26,22 @@ export class ProductService {
   }
 
   async getProduct(id: string) {
-    const product = await this.productModel.findById(id).select('-__v').exec();
+    const product = await this.productModel
+      .findById(id)
+      .select('-__v')
+      .exec()
+      .catch(() => {
+        throw new HttpException(
+          'Cannot retrieve product with given id',
+          HttpStatus.NOT_FOUND,
+        );
+      });
+    if (!product) {
+      throw new HttpException(
+        'Product with given id not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return product;
   }
 
@@ -56,10 +71,16 @@ export class ProductService {
   }
 
   async removeProduct(id: string) {
-    await this.productModel.findByIdAndDelete(id);
+    this.productModel.findByIdAndDelete(id).catch(() => {
+      //
+    });
   }
 
   async resolveCategoryByName(name: string) {
-    return await this.categoryModel.findOne({ name: name }).exec();
+    const ret = await this.categoryModel.findOne({ name: name }).exec();
+    if (!ret) {
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+    return ret;
   }
 }
