@@ -23,6 +23,11 @@ export class OrderController {
     return this.orderService.getOrders();
   }
 
+  @Get('/state/:state')
+  getProductsByState(@Param('state') stateName: string) {
+    return this.orderService.getOrdersByState(stateName.toUpperCase());
+  }
+
   @Get('/:id')
   getProduct(@Param('id') id: string) {
     return this.orderService.getOrder(id);

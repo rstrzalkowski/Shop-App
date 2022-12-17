@@ -59,6 +59,16 @@ export class OrderService {
     }));
   }
 
+  async getOrdersByState(stateName: string) {
+    const orders = await this.orderModel
+      .find()
+      .where('state.name')
+      .equals(stateName)
+      .select('-state._id')
+      .exec();
+    return orders;
+  }
+
   async getOrder(id: string) {
     const order = await this.orderModel
       .findById(id)
@@ -109,6 +119,16 @@ export class OrderService {
       } else if (order.state.name == 'CONFIRMED' && foundState.name == 'DONE') {
         order.state = foundState;
         await this.orderModel.findByIdAndUpdate(id, order);
+      } else if (order.state.name == 'CANCELLED') {
+        throw new HttpException(
+          'Cannot change state of cancelled order',
+          HttpStatus.CONFLICT,
+        );
+      } else {
+        throw new HttpException(
+          'Cannot change state to state that is before current state',
+          HttpStatus.CONFLICT,
+        );
       }
     } else {
       let message;
