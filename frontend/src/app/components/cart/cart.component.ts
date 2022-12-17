@@ -13,9 +13,10 @@ export class CartComponent implements OnInit {
   orderForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]*')])
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{9}')])
   })
 
+  orderPlaceStatus = 0;
   showForm = false;
 
   get email() {
@@ -42,16 +43,19 @@ export class CartComponent implements OnInit {
 
   increaseQuantity(product: Product) {
     this.cartService.increaseQuantity(product);
+    this.orderPlaceStatus = 0;
   }
 
   decreaseQuantity(product: Product) {
     this.cartService.decreaseQuantity(product);
+    this.orderPlaceStatus = 0;
   }
 
   removeFromCart(product: Product) {
     if (window.confirm("Do you really want to remove this item from cart?")) {
       this.cartService.removeFromCart(product);
     }
+    this.orderPlaceStatus = 0;
   }
 
   getTotalPrice() {
@@ -64,6 +68,7 @@ export class CartComponent implements OnInit {
 
   onCancel() {
     this.showForm = false;
+    this.orderPlaceStatus = 0;
   }
 
   onSubmit() {
@@ -71,10 +76,13 @@ export class CartComponent implements OnInit {
       this.cartService.placeOrder(this.email?.getRawValue(), this.username?.getRawValue(), this.phoneNumber?.getRawValue()).subscribe((result) => {
         if (result.status === 201) {
           this.cartService.emptyCart();
+          this.orderPlaceStatus = 1;
         }
+      }, error => {
+        this.orderPlaceStatus = 2;
       })
     } else {
-
+      this.orderPlaceStatus = 2;
     }
   }
 }

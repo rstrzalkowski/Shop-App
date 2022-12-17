@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../../services/products.service";
 import {Product} from "../../model/product.model";
-import {CartService} from "../../services/cart.service";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -16,7 +15,6 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
-    private cartService: CartService,
     private route: ActivatedRoute) {
   }
 
@@ -26,30 +24,30 @@ export class ProductsComponent implements OnInit {
   nameFilter = "";
 
   ngOnInit(): void {
-    this.productsService.getProducts().subscribe((products) => {
-      this.products = products;
-    });
     this.route.paramMap.subscribe((params) => {
       let param = params.get('category')?.toString()
       if (param) {
         this.category = param;
       }
       this.nameFilter = "";
+      this.getProducts();
     })
   }
 
-
   getProducts() {
+    this.productsService.getProducts().subscribe((products) => {
+      this.products = products;
+    });
+  }
+
+
+  getProductsFiltered() {
     return this.products.filter((product) => {
       if (this.category === "") {
         return product.name.toLowerCase().includes(this.nameFilter.toLowerCase())
       }
       return (product.category.name == this.category) && (product.name.toLowerCase().includes(this.nameFilter.toLowerCase()));
     });
-  }
-
-  getProductQuantityInCart(id: string) {
-    return this.cartService.getQuantity(id);
   }
 
   activate(column: string) {
@@ -79,9 +77,6 @@ export class ProductsComponent implements OnInit {
     document.getElementById(column)!.classList.add(className);
   }
 
-  addToCart(product: Product) {
-    this.cartService.addToCart(product);
-  }
 
   sort(prop: string, asc: boolean) {
     this.products.sort(this.sortHelper(prop, asc));

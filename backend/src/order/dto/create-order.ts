@@ -33,7 +33,7 @@ export class CreateOrderDTO {
   @IsDefined()
   @IsString()
   @IsNotEmpty()
-  @IsPhoneNumber()
+  @IsPhoneNumber('PL')
   public phoneNumber: string;
 
   @IsArray()

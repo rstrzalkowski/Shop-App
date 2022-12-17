@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CartService} from "../../services/cart.service";
 import {ProductsService} from "../../services/products.service";
 import {Category} from "../../model/category.model";
+import {OrderService} from "../../services/order.service";
+import {State} from "../../model/order.model";
 
 @Component({
   selector: 'app-navbar',
@@ -11,28 +12,29 @@ import {Category} from "../../model/category.model";
 export class NavbarComponent implements OnInit {
 
   isMenuCollapsed = true;
-  cartItemCount = 0;
   categories: Category[] = [];
+  states: State[] = [];
 
   constructor(
-    private cartService: CartService,
-    private productService: ProductsService) {
+    private productService: ProductsService,
+    private orderService: OrderService) {
   }
 
   ngOnInit(): void {
-    this.getCartItemCount();
     this.getCategories();
+    this.getStates();
   }
 
-  getCartItemCount() {
-    this.cartService.getCartContent().subscribe((cart) => {
-      this.cartItemCount = cart.length;
-    })
-  }
 
   getCategories() {
     this.productService.getCategories().subscribe((result) => {
       this.categories = result;
+    });
+  }
+
+  getStates() {
+    this.orderService.getStates().subscribe((result) => {
+      this.states = result;
     });
   }
 }

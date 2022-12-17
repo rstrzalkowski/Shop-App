@@ -19,8 +19,13 @@ export class OrderController {
   }
 
   @Get()
-  getProducts() {
+  getOrders() {
     return this.orderService.getOrders();
+  }
+
+  @Get('states')
+  getStates() {
+    return this.orderService.getStates();
   }
 
   @Get('/state/:state')

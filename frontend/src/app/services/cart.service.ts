@@ -106,10 +106,6 @@ export class CartService {
       phoneNumber: phoneNumber,
       products: this.cartItems,
     }
-
-    console.log(order)
-
-
     return this.http.post(environment.apiUrl + "/orders", order, {observe: "response"})
   }
 

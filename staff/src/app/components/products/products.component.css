@@ -1,3 +1,6 @@
+table {
+  overflow-x: scroll;
+}
 
 .asc::after {
   content: " ↓";

@@ -66,7 +66,15 @@ export class OrderService {
       .equals(stateName)
       .select('-state._id')
       .exec();
-    return orders;
+    return orders.map((order) => ({
+      id: order.id,
+      confirmationDate: order.confirmationDate,
+      username: order.username,
+      email: order.email,
+      phoneNumber: order.phoneNumber,
+      products: order.products,
+      state: order.state,
+    }));
   }
 
   async getOrder(id: string) {
@@ -110,9 +118,13 @@ export class OrderService {
       });
 
     if (foundState != null && order != null) {
-      if (
+      if (order.state.name == 'UNCONFIRMED' && foundState.name == 'CONFIRMED') {
+        order.confirmationDate = new Date();
+        order.state = foundState;
+        await this.orderModel.findByIdAndUpdate(id, order);
+      } else if (
         order.state.name == 'UNCONFIRMED' &&
-        (foundState.name == 'CONFIRMED' || foundState.name == 'CANCELLED')
+        foundState.name == 'CANCELLED'
       ) {
         order.state = foundState;
         await this.orderModel.findByIdAndUpdate(id, order);
@@ -139,5 +151,13 @@ export class OrderService {
       }
       throw new HttpException(message, HttpStatus.NOT_FOUND);
     }
+  }
+
+  async getStates() {
+    const states = await this.orderStateModel.find().exec();
+    return states.map((state) => ({
+      id: state.id,
+      name: state.name,
+    }));
   }
 }
