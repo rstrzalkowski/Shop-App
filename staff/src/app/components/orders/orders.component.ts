@@ -3,6 +3,8 @@ import {OrderService} from "../../services/order.service";
 import {Order} from "../../model/order.model";
 import {ActivatedRoute} from "@angular/router";
 
+declare var $: any;
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -12,6 +14,7 @@ export class OrdersComponent implements OnInit {
 
   orders: Order[] = [];
   state: string = '';
+  displayModal: string = 'none';
 
   constructor(
     private orderService: OrderService,
@@ -54,7 +57,7 @@ export class OrdersComponent implements OnInit {
     this.orderService.updateState(id, "CONFIRMED").subscribe((result) => {
       this.getOrders();
     }, error => {
-      alert(error.message)
+      this.showModalWithErrorMessage(error.error.message);
     })
   }
 
@@ -62,7 +65,7 @@ export class OrdersComponent implements OnInit {
     this.orderService.updateState(id, "CANCELLED").subscribe((result) => {
       this.getOrders();
     }, error => {
-      alert(error.message)
+      this.showModalWithErrorMessage(error.error.message);
     })
   }
 
@@ -70,8 +73,13 @@ export class OrdersComponent implements OnInit {
     this.orderService.updateState(id, "DONE").subscribe((result) => {
       this.getOrders();
     }, error => {
-      alert(error.message)
+      this.showModalWithErrorMessage(error.error.message);
     })
+  }
+
+  showModalWithErrorMessage(message: string){
+    $('#error-desc').text(message);
+    $('#exampleModal').modal('show');
   }
 
 }

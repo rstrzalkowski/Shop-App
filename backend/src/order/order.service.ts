@@ -137,7 +137,7 @@ export class OrderService {
         );
       } else {
         throw new HttpException(
-          'Cannot change state to state that is before current state',
+          `Cannot change order state from ${order.state.name} to ${foundState.name}`,
           HttpStatus.CONFLICT,
         );
       }
