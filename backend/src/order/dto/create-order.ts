@@ -3,10 +3,8 @@ import {
   IsArray,
   IsDefined,
   IsEmail,
-  IsISO8601,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPhoneNumber,
   IsPositive,
   IsString,
@@ -15,10 +13,6 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateOrderDTO {
-  @IsOptional()
-  @IsISO8601()
-  public confirmationDate: Date;
-
   @IsDefined()
   @IsString()
   @IsNotEmpty()

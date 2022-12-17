@@ -18,7 +18,6 @@ export class OrderService {
   ) {}
 
   async insertOrder(
-    confirmationDate,
     username,
     email,
     phoneNumber,
@@ -35,7 +34,7 @@ export class OrderService {
     }
 
     const newOrder = new this.orderModel({
-      confirmationDate: confirmationDate,
+      confirmationDate: null,
       username: username,
       email: email,
       phoneNumber: phoneNumber,

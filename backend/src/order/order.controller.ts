@@ -9,7 +9,6 @@ export class OrderController {
   @Post()
   async addOrder(@Body() dto: CreateOrderDTO) {
     const generatedId = await this.orderService.insertOrder(
-      dto.confirmationDate,
       dto.username,
       dto.email,
       dto.phoneNumber,

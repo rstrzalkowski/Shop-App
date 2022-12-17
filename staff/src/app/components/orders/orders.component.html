@@ -5,12 +5,6 @@
   <div *ngIf="orders.length" class="table-responsive">
     <table class="table table-striped table-bordered text-center mb-0">
       <thead class="thead-dark">
-      <!--      <tr class="align-content-center align-middle text-center">-->
-      <!--        <th id='nameHead' scope="col" (click)="sort('name', nameOrder); activate('nameHead');">Name</th>-->
-      <!--        <th scope="col">Description</th>-->
-      <!--        <th id='priceHead' scope="col" (click)="sort('price', priceOrder); activate('priceHead');">Price (PLN)</th>-->
-      <!--        <th scope="col">Add to cart</th>-->
-      <!--      </tr>-->
       <tr class="align-content-center align-middle text-center">
         <th>Confirmation Date</th>
         <th>State</th>
@@ -22,7 +16,7 @@
 
       <tbody>
       <tr *ngFor="let order of orders">
-        <td>{{order.confirmationDate || "None"}}</td>
+        <td>{{(order.confirmationDate | date:'d.MM.yyyy H:mm:s') || "None"}}</td>
         <td>{{order.state.name}}</td>
         <td>{{getTotal(order)}}</td>
         <td>
@@ -48,7 +42,6 @@
           </button>
       </tr>
       </tbody>
-
     </table>
   </div>
 </div>

@@ -20,7 +20,6 @@ export class OrderService {
   }
 
   updateState(id: string, state: string) {
-    console.log(id)
     return this.http.put(environment.apiUrl + '/orders/' + id, {state: state}, {observe: "response"});
   }
 

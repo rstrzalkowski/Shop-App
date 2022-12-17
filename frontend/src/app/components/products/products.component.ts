@@ -90,10 +90,16 @@ export class ProductsComponent implements OnInit {
   sortHelper(prop: string, asc: boolean) {
     if (asc) {
       return (a: any, b: any) => {
+        if(typeof (a[prop]) === 'string'){
+          return (a[prop] > b[prop]) ? 1 : -1;
+        }
         return a[prop] - b[prop];
       }
     } else {
       return (a: any, b: any) => {
+        if(typeof (a[prop]) === 'string'){
+          return (b[prop] > a[prop]) ? 1 : -1;
+        }
         return b[prop] - a[prop];
       }
     }
