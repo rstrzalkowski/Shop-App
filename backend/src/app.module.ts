@@ -4,9 +4,6 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { Module } from '@nestjs/common';
 import { InjectConnection, MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
@@ -37,11 +34,12 @@ const anyCORS = function (req, res, next) {
     MongooseModule.forRoot(
       'mongodb://nest:nestpassword@localhost/nestdb?authSource=admin',
     ),
-    ProductModule,
     OrderModule,
+    ProductModule,
     CategoryModule,
   ],
   controllers: [],
+  providers: [],
 })
 export class AppModule implements NestModule {
   @InjectConnection() private connection: Connection;
@@ -49,20 +47,14 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(staffCORS)
-      .exclude({ path: '/products', method: RequestMethod.GET })
-      .forRoutes({ path: '/products', method: RequestMethod.ALL });
-    consumer
-      .apply(staffCORS)
-      .forRoutes({ path: '/orders', method: RequestMethod.ALL });
+      .forRoutes({ path: '/*', method: RequestMethod.ALL });
     consumer
       .apply(anyCORS)
-      .forRoutes({ path: '/products', method: RequestMethod.GET });
-    consumer
-      .apply(anyCORS)
-      .forRoutes({ path: '/categories', method: RequestMethod.GET });
-    consumer
-      .apply(staffCORS)
-      .forRoutes({ path: '/products', method: RequestMethod.ALL });
+      .forRoutes(
+        { path: '/products', method: RequestMethod.GET },
+        { path: '/orders', method: RequestMethod.POST },
+        { path: '/categories', method: RequestMethod.GET },
+      );
   }
 
   onModuleInit() {

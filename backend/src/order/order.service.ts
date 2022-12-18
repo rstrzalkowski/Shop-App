@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { OrderState } from './orderState.model';
 import { Order } from './order.model';
-import { ProductService } from '../product/product.service';
 import { ProductEntryDTO } from './dto/create-order';
+import { ProductService } from '../product/product.service';
 
 //TODO Exception handling + implement Update and Delete
 
