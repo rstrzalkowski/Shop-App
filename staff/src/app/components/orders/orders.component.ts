@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderService} from "../../services/order.service";
 import {Order} from "../../model/order.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 declare var $: any;
 
@@ -14,10 +14,13 @@ export class OrdersComponent implements OnInit {
 
   orders: Order[] = [];
   state: string = '';
+  username: string = '';
+  usernameFilter: string ='';
 
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -29,6 +32,21 @@ export class OrdersComponent implements OnInit {
       }
       this.getOrders();
     })
+    this.route.paramMap.subscribe((params) => {
+      let param = params.get('username')?.toString()
+      if (param) {
+        this.username = param;
+      }
+      this.getOrders();
+    })
+  }
+
+  navigateToOrdersByUsername(){
+    if(this.usernameFilter != ''){
+      this.router.navigate([`/orders/username/${this.usernameFilter}`]);
+    } else {
+      this.router.navigate([`/orders/`]);
+    }
   }
 
   getTotal(order: Order) {
@@ -42,12 +60,29 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrders() {
-    this.orderService.getOrders(this.state).subscribe((orders) => {
-      this.orders = orders;
-      this.orders.forEach((order) => {
-        order.products.forEach((product) => {
-          product.product.quantity = product.quantity
-        })
+    if(this.state != ''){
+      this.orderService.getOrdersByState(this.state).subscribe((orders) => {
+        this.orders = orders;
+        this.mapOrders();
+      })
+    }
+    else if(this.username != ''){
+      this.orderService.getOrdersByUsername(this.username).subscribe((orders) => {
+        this.orders = orders;
+        this.mapOrders();
+      })
+    } else {
+      this.orderService.getOrders().subscribe((orders) => {
+        this.orders = orders;
+        this.mapOrders();
+      })
+    }
+  }
+
+  mapOrders(){
+    this.orders.forEach((order) => {
+      order.products.forEach((product) => {
+        product.product.quantity = product.quantity
       })
     })
   }

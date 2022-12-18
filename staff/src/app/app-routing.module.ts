@@ -7,7 +7,8 @@ const routes: Routes = [
   {path: 'products', component: ProductsComponent},
   {path: 'products/:category', component: ProductsComponent},
   {path: 'orders', component: OrdersComponent},
-  {path: 'orders/:state', component: OrdersComponent},
+  {path: 'orders/state/:state', component: OrdersComponent},
+  {path: 'orders/username/:username', component: OrdersComponent},
   {path: '**', redirectTo: 'products'}
 ];
 

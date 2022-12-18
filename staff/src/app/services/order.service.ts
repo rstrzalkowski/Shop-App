@@ -11,12 +11,16 @@ export class OrderService {
   constructor(private http: HttpClient) {
   }
 
-  getOrders(state: string) {
-    if (state != '') {
-      return this.http.get<Order[]>(environment.apiUrl + '/orders/state/' + state);
-    } else {
-      return this.http.get<Order[]>(environment.apiUrl + '/orders');
-    }
+  getOrders() {
+    return this.http.get<Order[]>(environment.apiUrl + '/orders');
+  }
+
+  getOrdersByUsername(username: string) {
+    return this.http.get<Order[]>(environment.apiUrl + '/orders/username/' + username);
+  }
+
+  getOrdersByState(state: string) {
+    return this.http.get<Order[]>(environment.apiUrl + '/orders/state/' + state);
   }
 
   updateState(id: string, state: string) {

@@ -17,7 +17,7 @@
           </a>
           <ul class="dropdown-menu position-absolute">
             <a *ngFor="let state of states" class="dropdown-item" (click)="isMenuCollapsed = true"
-               routerLink="/orders/{{state.name}}">{{state.name}}</a>
+               routerLink="/orders/state/{{state.name}}">{{state.name}}</a>
             <div class="dropdown-divider"></div>
             <a (click)="isMenuCollapsed = true" class="dropdown-item" routerLink="/orders">All orders</a>
           </ul>
