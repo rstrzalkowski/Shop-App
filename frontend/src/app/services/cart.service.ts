@@ -112,5 +112,6 @@ export class CartService {
   emptyCart() {
     this.cartItems = [];
     this.behaviorSubject.next(this.cartItems);
+    localStorage.removeItem('cart');
   }
 }

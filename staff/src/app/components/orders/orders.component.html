@@ -3,8 +3,8 @@
     <span class="text-decoration-none" routerLink="/orders">Orders </span>
     <span *ngIf="state != ''"> > {{state}}</span>
     <span *ngIf="username != ''"> > {{username}}</span>
-    <form (submit)="navigateToOrdersByUsername()" class="mx-auto">
-      <input class="form-control w-50 d-inline-block mt-0" [(ngModel)]="usernameFilter" name="usernameFilter" type="text" placeholder="Search by username">
+    <form (submit)="navigateToOrdersByUsername()" class="mx-sm-auto">
+      <input class="form-control w-auto d-inline-block mt-0" [(ngModel)]="usernameFilter" name="usernameFilter" type="text" placeholder="Search by username">
       <button type="submit" class="d-inline-block btn btn-primary ms-2 mt-1" >Search</button>
     </form>
   </div>
