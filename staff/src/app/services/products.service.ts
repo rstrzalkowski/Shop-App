@@ -19,4 +19,16 @@ export class ProductsService {
   getCategories() {
     return this.http.get<Category[]>(environment.apiUrl + '/categories')
   }
+
+  editProduct(id: string, name: string, description: string, weight: number, category: string, price: number) {
+    const body = {
+      name: name,
+      description: description,
+      weight: Number(weight),
+      category: category,
+      price: Number(price)
+    }
+    
+    return this.http.put(environment.apiUrl + '/products/' + id, body, {observe: "response"});
+  }
 }

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class UpdateProductDTO {
   @IsOptional()
@@ -13,10 +19,12 @@ export class UpdateProductDTO {
 
   @IsOptional()
   @IsNumber()
+  @IsPositive()
   public price: number;
 
   @IsOptional()
   @IsNumber()
+  @IsPositive()
   public weight: number;
 
   @IsOptional()

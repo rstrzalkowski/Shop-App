@@ -14,7 +14,6 @@ export class OrdersComponent implements OnInit {
 
   orders: Order[] = [];
   state: string = '';
-  displayModal: string = 'none';
 
   constructor(
     private orderService: OrderService,
@@ -77,7 +76,7 @@ export class OrdersComponent implements OnInit {
     })
   }
 
-  showModalWithErrorMessage(message: string){
+  showModalWithErrorMessage(message: string) {
     $('#error-desc').text(message);
     $('#exampleModal').modal('show');
   }

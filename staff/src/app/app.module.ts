@@ -7,7 +7,7 @@ import {OrdersComponent} from './components/orders/orders.component';
 import {ProductsComponent} from "./components/products/products.component";
 import {HttpClientModule} from "@angular/common/http";
 import {NavbarComponent} from "./components/navbar/navbar.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
@@ -23,6 +23,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     AppRoutingModule,
     FormsModule,
     NgbModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

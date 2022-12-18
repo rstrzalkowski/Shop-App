@@ -1,7 +1,7 @@
 <div class="table-responsive col-lg-8 mx-auto card mt-sm-3">
   <div class="card-header text-center h3">
     <span routerLink="/products">Products</span>
-    <span *ngIf="category.length"> > {{category}}</span>
+    <span *ngIf="actualCategory.length"> > {{actualCategory}}</span>
     <p><input class="form-control w-50 mx-auto mt-2" [(ngModel)]="nameFilter" type="text" placeholder="Search by name">
     </p>
   </div>
@@ -22,7 +22,7 @@
         <td>{{product.description}}</td>
         <td>{{product.price}}</td>
         <td>
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" (click)="showEditForm(product)">
             <i class="bi bi-pen"></i>
             <span class="d-none d-sm-inline"> Edit</span>
           </button>
@@ -34,12 +34,35 @@
   </div>
 </div>
 
-<!--<ul class="container align-items-center" *ngFor="let product of this.getProducts()">-->
-<!--  <li class="row w-100 mx-auto bg-light">-->
-<!--    <div class="col-6">{{product.name}}</div>-->
-<!--    <div class="col-6 text-end">{{product.price}} PLN</div>-->
-<!--    <div class="col-6">Weight: {{product.weight}}</div>-->
-<!--    <div class="col-6">Category: {{product.category.name}}</div>-->
-<!--    <div class="col-12">{{product.description}}</div>-->
-<!--  </li>-->
-<!--</ul>-->
+<div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModal"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit product <span class="d-none" id="product_id"></span></h5>
+      </div>
+      <div id='error-desc' class="modal-body">
+        <form id="edit_form">
+          Name
+          <input id="name" type="text" class="form-control">
+          Description
+          <input id="description" type="text" class="form-control">
+          Weight
+          <input id="weight" type="number" class="form-control">
+          Category
+          <select id="category" class="form-select">
+
+          </select>
+          Price
+          <input id="price" type="number" class="form-control">
+        </form>
+        <div id="error-div" class="mt-3" style="color: red">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="edit_form" class="btn btn-success" (click)="saveEditedProduct()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { InjectConnection, MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
@@ -16,8 +14,7 @@ import { Connection } from 'mongoose';
     OrderModule,
     CategoryModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
 })
 export class AppModule {
   @InjectConnection() private connection: Connection;

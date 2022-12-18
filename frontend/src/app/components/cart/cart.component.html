@@ -58,7 +58,7 @@
   </div>
   <div *ngIf="showForm" class="card col-sm-8 col-md-6 col-lg-5 col-xxl-4 mx-auto m-1">
     <div class="card-header h4">Please fill to place your order</div>
-    <form [formGroup]="orderForm" class="p-3">
+    <form [formGroup]="orderForm" class="p-3" id="orderForm">
       <div class="form-outline mb-4">
         <label class="form-label" for="email">Email address*</label>
         <input required type="email" id="email" formControlName="email" class="form-control form-control-lg"
@@ -85,7 +85,7 @@
     <div class="justify-content-end d-flex m-3">
       <button (click)="onCancel()" class="btn btn-danger me-2">Cancel</button>
       <button type="submit" [ngClass]="{disabled: !orderForm.valid}" (click)="onSubmit()"
-              class="btn btn-success ms-2">Submit
+              class="btn btn-success ms-2" form="orderForm">Submit
         order
       </button>
     </div>
