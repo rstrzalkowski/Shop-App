@@ -76,6 +76,24 @@ export class OrderService {
     }));
   }
 
+  async getOrdersByUsername(username: string) {
+    const orders = await this.orderModel
+      .find()
+      .where('username')
+      .equals(username)
+      .select('-state._id')
+      .exec();
+    return orders.map((order) => ({
+      id: order.id,
+      confirmationDate: order.confirmationDate,
+      username: order.username,
+      email: order.email,
+      phoneNumber: order.phoneNumber,
+      products: order.products,
+      state: order.state,
+    }));
+  }
+
   async getOrder(id: string) {
     const order = await this.orderModel
       .findById(id)

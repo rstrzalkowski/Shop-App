@@ -32,6 +32,11 @@ export class OrderController {
     return this.orderService.getOrdersByState(stateName.toUpperCase());
   }
 
+  @Get('/username/:username')
+  getProductsByUsername(@Param('username') username: string) {
+    return this.orderService.getOrdersByUsername(username);
+  }
+
   @Get('/:id')
   getProduct(@Param('id') id: string) {
     return this.orderService.getOrder(id);
